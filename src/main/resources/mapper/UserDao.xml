@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyi.biz.integration.dao.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.lingyi.biz.entity.User">
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_age" jdbcType="INTEGER" property="userAge"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+    </resultMap>
+
+    <select id="queryUserList" parameterType="com.lingyi.web.dto.QueryUserListReqDTO" resultMap="BaseResultMap">
+        select *
+        from t_user
+        <where>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId}
+            </if>
+            <if test="userAge != null and userAge != ''">
+                user_age = #{userAge}
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name like concat('%',#{userName},'%')
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                user_phone = #{userPhone}
+            </if>
+        </where>
+    </select>
+
+</mapper>
